@@ -1,0 +1,23 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class = "content-section">
+        <form method = "POST" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <fieldset class = "form-group">
+                <legend class = "border-bottom mb-4">
+                    <b>Delete Post</b>
+                </legend>
+                <h2>Are you Sure you want to delete the Recipe {{object.title}}</h2>
+            </fieldset>
+            <div class = form-group>
+                <button class ="btn btn-outline-danger" type = "submit">Yes Delete</button>
+                <a class ="btn btn-outline-secondary" href = "%url 'post-detail' object.id%">Cancel</a>
+            </div>
+        </form>
+        
+    <script src="{% static 'djrichtextfield/djr.js' %}"></script>
+    </div>
+        
+{% endblock content%}

@@ -1,0 +1,23 @@
+<!-- post_update.html -->
+
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="{% url 'post-update' pk=post.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    <b>Update Recipe</b>
+                </legend>
+                {{ form.media }}
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-info">Update Recipe</button>
+            </div>
+        </form>
+        <a href="{% url 'post-detail' post.id %}" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+{% endblock content %}

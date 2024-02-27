@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Book Shelf</title>
+    <style>
+        /* Add CSS styles for the recipe book shelf */
+        .recipe-book-shelf {
+            display: flex;
+            overflow-x: auto; /* Enable horizontal scrolling if needed */
+        }
+        h3 {
+  border: 1px solid black;
+}
+        .recipe-book {
+            width: 150px;
+            height: 200px;
+            margin-right: 10px;
+            background-color: {{ recipe_book.color }};
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .recipe-book h3 {
+            margin: 0;
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h2>Recipe Book Shelf</h2>
+
+    <div class="recipe-book-shelf">
+        {% for recipe_book in user.recipebook_set.all %}
+            <div class="recipe-book">
+                <h3>{{ recipe_book.title }}</h3>
+                <!-- Add other details or links as needed -->
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>eals
+Test1

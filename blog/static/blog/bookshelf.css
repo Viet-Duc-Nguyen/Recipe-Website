@@ -1,0 +1,24 @@
+.recipe-book-shelf {
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+}
+
+.recipe-book {
+    width: 150px;
+    height: 200px;
+    margin-right: 10px;
+    border: 1px solid #d55959;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.recipe-book h3 {
+    margin: 0;
+    text-align: center;
+    color: #f05151; 
+}
+
+

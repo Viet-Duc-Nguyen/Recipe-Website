@@ -1,0 +1,80 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags static %} {# Load static tag for including CSS file #}
+{% block content %}
+    <!-- Top Section -->
+    <div class="container mt-5">
+        <div class="card mb-3">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    {% if user.profile.image %}
+                        <img src="{{ user.profile.image.url }}" class="card-img" alt="Profile Image">
+                    {% else %}
+                        <img src="/media/profile_pics/default.jpg" class="card-img" alt="Profile Picture">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ user.username }}</h2>
+                        <p class="card-text">{{ user.email }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Post Section -->
+        <div class="card mb-3">
+            <div class="card-body">
+                <h3 class="card-title">{{ user.username }}'s Recipes</h3>
+                {% for post in user.post_set.all %}
+                    <div class="media content-section mb-4">
+                        {% if post.image %}
+                            <img class="mr-3 rounded-circle" src="{{ post.image.url }}" alt="Recipe Image"
+                                style="width: 90px; height: 90px;">
+                        {% endif %}
+
+                        <div class="media-body">
+                            <h5 class="mt-0">
+                                <a class="article-title" href="{% url 'post-detail' post.id %}">
+                                    {{ post.title }} <small><i class="author-info">By {{ post.author }}</i></small>
+                                </a>
+                            </h5>
+
+                            <p class="article-content">{{ post.excerpt|safe }}</p>
+
+                            <div class="form-group">
+                                {% if request.user == post.author %}
+                                    <a href="{% url 'post-update' post.id %}" class="btn btn-outline-info mr-2">Edit
+                                        Recipe</a>
+                                    <a href="{% url 'post-delete' post.id %}" class="btn btn-outline-info">Delete
+                                        Recipe</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Bookshelf Section -->
+        <link rel="stylesheet" type="text/css" href="{% static 'blog/bookshelf.css' %}">
+
+        <!-- Content from recipebook_detail.html -->
+        <h4>{{ user.username }}'s Books</h4>
+        <div class="recipe-book-shelf">
+            {% for recipe_book in user.recipebook_set.all %}
+                <div class="recipe-book" style="background-color: rgb({{ recipe_book.get_random_color }})">
+                    <h3>
+                        {% if recipe_book.id %}
+                            <a class="article-title"
+                                href="{% url 'recipebook-detail' recipe_book.id %}">{{ recipe_book.title }}</a>
+                        {% else %}
+                            {{ recipe_book.title }}
+                        {% endif %}
+                    </h3>
+                </div>
+            {% endfor %}
+        </div>
+        <br>
+        <br>
+    </div>
+{% endblock content %}

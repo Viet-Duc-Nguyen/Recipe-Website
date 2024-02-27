@@ -1,0 +1,64 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags static %} {# Load static tag for including CSS file #}
+{% block content %}
+
+
+
+<!-- Section 3: Display Your Recipes with Actions -->
+<div class="card mb-3">
+    <div class="card-body">
+        <h3 class="card-title">Recipes in {{recipe_book.title}}</h3>
+        {% for post in book_recipes %}
+            <div class="media content-section mb-4">
+                {% if post.image %}
+                    <img class="mr-3 rounded-circle" src="{{ post.image.url }}" alt="Recipe Image" style="width: 90px; height: 90px;">
+                {% endif %}
+                <div class="media-body">
+                    <h5 class="mt-0">
+                        <a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+                    </h5>
+                    <p class="article-content">{{ post.excerpt|safe }}</p>
+                    <form action="{% url 'remove-recipe-from-recipebook' recipebook_id=recipebook_id recipe_id=post.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-info mr-2">Delete Recipe from Book</button>
+                    </form>
+                </div>
+            </div>
+
+            
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h3 class="card-title">Suggestions</h3>
+        {% for post in posts %}
+            {% if post not in book_recipes %}
+            <div class="media content-section mb-4">
+                {% if post.image %}
+                    <img class="mr-3 rounded-circle" src="{{ post.image.url }}" alt="Recipe Image" style="width: 90px; height: 90px;">
+                {% endif %}
+                <div class="media-body">
+                    <h5 class="mt-0">
+                        <a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+                    </h5>
+                    <p class="article-content">{{ post.excerpt|safe }}</p>
+                    
+                </div>
+            </div>
+
+            <!-- Add Recipe to Book Form -->
+            <form action="{% url 'add-recipe-to-recipebook' recipebook_id=recipebook_id recipe_id=post.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-info mr-2">Add Recipe to Book</button>
+            </form>
+
+            
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,47 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    {% load static %}  {# Add this line to load the static tag #}
+    <article class="media content-section">
+        <div class="col-md-2">
+            {% if object.author.profile.image %}
+                <img class="rounded-circle" src="{{ object.author.profile.image.url }}" style="width: 90px; height: 90px;">
+            {% else %}
+                <img class="rounded-circle" src="/media/profile_pics/default.jpg" style="width: 90px; height: 90px;">
+            {% endif %}
+        </div>
+
+        <div class="media-body">
+            <div class="article-metadata">
+                
+                <a class="mr-2" href="{% url 'user_profile' username=post.author.username %}">{{ object.author }}</a>
+                <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h2 class="article-title">{{ object.title }}</h2>
+
+            <!-- Display Recipe Card -->
+            <div class="recipe-card">
+                <div class="row">
+                    <div class="col-md-6 recipe-image">
+                        <!-- Display Recipe Image -->
+                        <img src="{{ post.image.url }}" alt="Recipe Image" class="img-fluid">
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Display Ingredients -->
+                        <div class="recipe-section">
+                            <h3 style="font-family: 'Montserrat', sans-serif; color: #3498db; font-size: 24px; margin-bottom: 15px;">Ingredients:</h3>
+                            <div class="article-content" style="font-family: 'Open Sans', sans-serif; font-size: 16px; line-height: 1.4; color: #555;">{{ object.ingredients|safe }}</div>
+                        </div>
+                    
+                        <!-- Display Instructions -->
+                        <div class="recipe-section">
+                            <h3 style="font-family: 'Montserrat', sans-serif; color: #3498db; font-size: 24px; margin-bottom: 15px;">Instructions:</h3>
+                            <div class="article-content" style="font-family: 'Open Sans', sans-serif; font-size: 16px; line-height: 1.4; color: #555;">{{ object.content|safe }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <link rel="stylesheet" type="text/css" href="{% static 'post_detail.css' %}">
+{% endblock content %}

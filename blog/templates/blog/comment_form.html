@@ -1,0 +1,43 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+  <div class="comment-section">
+    <h3> Comments..</h3>
+    <br/>
+    {% for comment in comments %}
+      <div class="comment">
+        <strong>
+          <a href="{% url 'user_profile' username=comment.user.username %}">{{ comment.user.username }}</a> - {{ comment.date_added }}
+        </strong>
+        <br/>
+        {{ comment.content }}
+        <br/>
+        <br/>
+      </div>
+    {% endfor %}
+
+    <div class="comment-form">
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-secondary">Add Comment</button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    .comment-section {
+      margin-top: 20px;
+    }
+
+    .comment {
+      margin-bottom: 20px;
+    }
+
+    .comment-form {
+      margin-top: 20px;
+    }
+
+    /* Add more styling as needed */
+  </style>
+{% endblock content %}
